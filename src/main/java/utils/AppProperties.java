@@ -14,6 +14,10 @@ public class AppProperties {
         return reader.getPropertyByKey("RANGE");
     }
 
+    public static String getRange2(){
+        return reader.getPropertyByKey("RANGE2");
+    }
+
     // Conexion BD
     public static String getMySqlUrl(){
         return  reader.getPropertyByKey("MYSQL_URL");

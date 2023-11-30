@@ -201,25 +201,60 @@ public class StepDefinitions {
         this.driver.quit();
     }
 
-    @And("completar con {string} el nombre, con {string} el correo,con {string} el securynumber,con {string} el telefono")
-    public void completarConElNombreConElCorreoConElSecurynumberConElTelefono(String namee, String eemail, String security, String phonee) throws InterruptedException {
+    @And("Leer desde el Excel {int}")
+//    son los parametros que recibe desde el feature
+    public void completarConElNombreConElCorreoConElSecurynumberConElTelefono(int row) throws InterruptedException {
         Thread.sleep(1500);
+
+
+        String valueToSearch;
+        String valueToSearch2;
+        String range = UtilConstants.NAME_HOJA + "!" + UtilConstants.RANGE;
+        String range2 = UtilConstants.NAME_HOJA + "!" + UtilConstants.RANGE2;
+
+        List<List<Object>> values = null;
+        List<List<Object>> values2 = null;
+        try {
+            values = GoogleSheetsReader.read(UtilConstants.SPREADSHEET_IDS,range);
+            values2 = GoogleSheetsReader.read(UtilConstants.SPREADSHEET_IDS, range2);
+            if (values == null || values.isEmpty()) {
+                throw new RuntimeException("No hay datos en el documento.");
+            }
+
+
+        } catch (GeneralSecurityException | IOException e) {
+            throw new RuntimeException("No se leyo el documento, error: "+ e.getMessage());
+        }
+        try {
+            // esto es para que lea las filas que se le mandan en el feature
+            valueToSearch = String.valueOf((values).get(row).get(0));
+            valueToSearch2 = String.valueOf((values2).get(row).get(0));
+
+
+        }catch (Exception e){
+            throw new RuntimeException("registro(s) vacio(s), error: "+e.getMessage());
+        }
+
+
+
+
 
         //se escribe el nombre
         WebElement name = driver.findElement(By.xpath("(//input)[9]"));
-        name.sendKeys(namee);
+        // el valueToSearch trae el valor del excel y esto es lo que va a escribir en el campo nombre o name
+        name.sendKeys(valueToSearch);
 
         //se escribe el email
         WebElement email = driver.findElement(By.xpath("(//input)[10]"));
-        email.sendKeys(eemail);
+        email.sendKeys(valueToSearch2);
 
         //se escribe el securityNumber
         WebElement securityNumber = driver.findElement(By.xpath("(//input)[11]"));
-        securityNumber.sendKeys(security);
+        securityNumber.sendKeys(valueToSearch);
 
         //se escribe el phone
         WebElement phone = driver.findElement(By.xpath("(//input)[12]"));
-        phone.sendKeys(phonee);
+        phone.sendKeys(valueToSearch);
 
         //se seleciona el archivo
         WebElement image = driver.findElement(By.cssSelector("input[type='file']"));

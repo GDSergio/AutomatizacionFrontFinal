@@ -6,6 +6,7 @@ public class UtilConstants {
     public static final String SPREADSHEET_IDS = AppProperties.getSpreadSheetId();
     public static final String NAME_HOJA = AppProperties.getNameHoja();
     public static final String RANGE = AppProperties.getRange();
+    public static final String RANGE2 = AppProperties.getRange2();
 
 //    Conexion BD
 
