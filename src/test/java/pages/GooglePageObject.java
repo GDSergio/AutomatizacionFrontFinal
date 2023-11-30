@@ -1,4 +1,4 @@
-package pages;
+/*package pages;
 
 import net.serenitybdd.annotations.DefaultUrl;
 import net.serenitybdd.core.annotations.findby.FindBy;
@@ -84,3 +84,4 @@ public class GooglePageObject extends PageObject {
 
     }
 }
+*/

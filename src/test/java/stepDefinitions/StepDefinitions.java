@@ -13,7 +13,11 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
+import utils.GoogleSheetsReader;
+import utils.UtilConstants;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 
 public class StepDefinitions {
@@ -46,7 +50,29 @@ public class StepDefinitions {
 
     @And("Llenar el campo de usuario como {string}")
     public void llenarElCampoDeUsuarioComo(String usuario) {
-        this.driver.findElement(By.cssSelector("#login input")).sendKeys(usuario);
+//        this.driver.findElement(By.cssSelector("#login input")).sendKeys(usuario);
+
+        // TEST DE LECTURA EXCEL
+        String valueToSearch;
+        String range = UtilConstants.NAME_HOJA + "!" + UtilConstants.RANGE;
+        List<List<Object>> values = null;
+        try {
+            values = GoogleSheetsReader.read(UtilConstants.SPREADSHEET_IDS,range);
+            if (values == null || values.isEmpty()) {
+                throw new RuntimeException("No hay datos en el documento.");
+            }
+        } catch (GeneralSecurityException | IOException e) {
+            throw new RuntimeException("No se leyo el documento, error: "+ e.getMessage());
+        }
+        try {
+            //valueToSearch = String.valueOf((values).get(rowNumber).get(0));
+            valueToSearch = String.valueOf((values).get(2).get(0));
+        }catch (Exception e){
+            throw new RuntimeException("registro(s) vacio(s), error: "+e.getMessage());
+        }
+
+        this.driver.findElement(By.cssSelector("#login input")).sendKeys(valueToSearch);
+
     }
 
     @And("Llenar el campo contraseña como {string}")
