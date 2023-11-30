@@ -17,6 +17,10 @@ public class UtilConstants {
     public static final String RANGE_USUARIO = AppProperties.getRangeLoginUsuario();
     public static final String RANGE_PASSWORD = AppProperties.getRangeLoginPassword();
 
+    //FILTRO
+    public static final String NAME_HOJA_FILTRO = AppProperties.getNameHojaFiltro();
+    public static final String RANGE_FILTRO_PRECIO = AppProperties.getRangeFiltroPrecio();
+
 //    Conexion BD
 
     public static final String MYSQL_URL = AppProperties.getMySqlUrl();

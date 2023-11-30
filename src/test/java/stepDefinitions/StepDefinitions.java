@@ -193,14 +193,40 @@ public class StepDefinitions {
     public void elCarritoApareceraConTuCompra() {
     }
 
-    @And("Seleccionar el precio “{int}”")
-    public void seleccionarElPrecio(int precio) throws InterruptedException {
+    @And("Seleccionar el precio {int}")
+    public void seleccionarElPrecio(int row) throws InterruptedException {
         Thread.sleep(800); // Esto es un timeout
+
+        int valueToSearch;
+
+        String range = UtilConstants.NAME_HOJA_FILTRO + "!" + UtilConstants.RANGE_FILTRO_PRECIO;
+        List<List<Object>> values = null;
+
+        try {
+
+            values = GoogleSheetsReader.read(UtilConstants.SPREADSHEET_IDS,range);
+
+            if (values == null || values.isEmpty()) {
+                throw new RuntimeException("No hay datos en el documento.");
+            }
+
+
+        } catch (GeneralSecurityException | IOException e) {
+            throw new RuntimeException("No se leyo el documento, error: "+ e.getMessage());
+        }
+        try {
+            // esto es para que lea las filas que se le mandan en el feature
+            valueToSearch = Integer.parseInt(String.valueOf((values).get(row).get(0)));
+
+        }catch (Exception e){
+            throw new RuntimeException("registro(s) vacio(s), error: "+e.getMessage());
+        }
+
         WebElement progressBar = driver.findElement(By.xpath("(//input)[8]"));
         Thread.sleep(500);
         borrarPrecio();
 
-        escribirPrecio(precio);
+        escribirPrecio(valueToSearch);
         progressBar.sendKeys(Keys.ENTER);
     }
 
@@ -234,13 +260,42 @@ public class StepDefinitions {
     }
 
 
-    @Then("Validar que los planetas listados sean de precio menor a “{int}”")
-    public void validarQueLosPlanetasListadosSeanDePrecioMenorA(int valor) {
+    @Then("Validar que los planetas listados sean de precio menor a {int}")
+    public void validarQueLosPlanetasListadosSeanDePrecioMenorA(int row) {
+
+
+        int valueToSearch;
+
+        String range = UtilConstants.NAME_HOJA_FILTRO + "!" + UtilConstants.RANGE_FILTRO_PRECIO;
+        List<List<Object>> values = null;
+
+        try {
+
+            values = GoogleSheetsReader.read(UtilConstants.SPREADSHEET_IDS,range);
+
+            if (values == null || values.isEmpty()) {
+                throw new RuntimeException("No hay datos en el documento.");
+            }
+
+
+        } catch (GeneralSecurityException | IOException e) {
+            throw new RuntimeException("No se leyo el documento, error: "+ e.getMessage());
+        }
+        try {
+            // esto es para que lea las filas que se le mandan en el feature
+            valueToSearch = Integer.parseInt(String.valueOf((values).get(row).get(0)));
+
+        }catch (Exception e){
+            throw new RuntimeException("registro(s) vacio(s), error: "+e.getMessage());
+        }
+
+
+
         List<WebElement> prices = driver.findElements(By.cssSelector("span[Class*='price']"));
         for (int i = 0; i < prices.size(); i++) {
             String number = prices.get(i).getText().substring(1, 4);
             int number2 = Integer.parseInt(number.replace(".", ","));
-            Assert.assertTrue(number2 < valor);
+            Assert.assertTrue(number2 < valueToSearch);
         }
     }
 

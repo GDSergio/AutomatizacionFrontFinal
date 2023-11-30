@@ -46,6 +46,14 @@ public class AppProperties {
     }
 
 
+    //    PRECIO
+    public static String getNameHojaFiltro() {
+        return reader.getPropertyByKey("NAME_HOJA_FILTRO");
+    }
+    public static String getRangeFiltroPrecio() {
+        return reader.getPropertyByKey("RANGE_FILTRO_PRECIO");
+    }
+
     // Conexion BD
     public static String getMySqlUrl() {
         return reader.getPropertyByKey("MYSQL_URL");
