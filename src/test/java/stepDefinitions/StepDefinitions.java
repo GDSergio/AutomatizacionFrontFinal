@@ -48,16 +48,19 @@ public class StepDefinitions {
 
     }
 
-    @And("Llenar el campo de usuario como {string}")
-    public void llenarElCampoDeUsuarioComo(String usuario) {
+    @And("Llenar el campo de usuario como {int}")
+    public void llenarElCampoDeUsuarioComo(int row) {
 //        this.driver.findElement(By.cssSelector("#login input")).sendKeys(usuario);
 
         // TEST DE LECTURA EXCEL
         String valueToSearch;
-        String range = UtilConstants.NAME_HOJA + "!" + UtilConstants.RANGE;
+        String range = UtilConstants.NAME_HOJA_LOGIN + "!" + UtilConstants.RANGE_USUARIO;
         List<List<Object>> values = null;
+
         try {
+
             values = GoogleSheetsReader.read(UtilConstants.SPREADSHEET_IDS,range);
+
             if (values == null || values.isEmpty()) {
                 throw new RuntimeException("No hay datos en el documento.");
             }
@@ -66,7 +69,7 @@ public class StepDefinitions {
         }
         try {
             //valueToSearch = String.valueOf((values).get(rowNumber).get(0));
-            valueToSearch = String.valueOf((values).get(2).get(0));
+            valueToSearch = String.valueOf((values).get(row).get(0));
         }catch (Exception e){
             throw new RuntimeException("registro(s) vacio(s), error: "+e.getMessage());
         }
@@ -75,9 +78,32 @@ public class StepDefinitions {
 
     }
 
-    @And("Llenar el campo contraseña como {string}")
-    public void llenarElCampoContraseñaComo(String contrasena) {
-        this.driver.findElement(By.cssSelector("input[type=\"password\"]")).sendKeys(contrasena);
+    @And("Llenar el campo contraseña como {int}")
+    public void llenarElCampoContraseñaComo(int row) {
+
+
+        // TEST DE LECTURA EXCEL
+        String valueToSearch;
+        String range = UtilConstants.NAME_HOJA_LOGIN + "!" + UtilConstants.RANGE_PASSWORD;
+        List<List<Object>> values = null;
+
+        try {
+
+            values = GoogleSheetsReader.read(UtilConstants.SPREADSHEET_IDS,range);
+
+            if (values == null || values.isEmpty()) {
+                throw new RuntimeException("No hay datos en el documento.");
+            }
+        } catch (GeneralSecurityException | IOException e) {
+            throw new RuntimeException("No se leyo el documento, error: "+ e.getMessage());
+        }
+        try {
+            //valueToSearch = String.valueOf((values).get(rowNumber).get(0));
+            valueToSearch = String.valueOf((values).get(row).get(0));
+        }catch (Exception e){
+            throw new RuntimeException("registro(s) vacio(s), error: "+e.getMessage());
+        }
+        this.driver.findElement(By.cssSelector("input[type=\"password\"]")).sendKeys(valueToSearch);
     }
 
     @When("Dar Clic en el botón LOGIN")
@@ -86,11 +112,35 @@ public class StepDefinitions {
         this.driver.findElement(By.cssSelector("button[form='login']")).click();
     }
 
-    @Then("Validar que el {string} aparezca en la parte superior derecha")
-    public void validarQueElAparezcaEnLaParteSuperiorDerecha(String usuario) throws InterruptedException {
+    @Then("Validar que el {int} aparezca en la parte superior derecha")
+    public void validarQueElAparezcaEnLaParteSuperiorDerecha(int row) throws InterruptedException {
+
+        // TEST DE LECTURA EXCEL
+        String valueToSearch;
+        String range = UtilConstants.NAME_HOJA_LOGIN + "!" + UtilConstants.RANGE_USUARIO;
+        List<List<Object>> values = null;
+
+        try {
+
+            values = GoogleSheetsReader.read(UtilConstants.SPREADSHEET_IDS,range);
+
+            if (values == null || values.isEmpty()) {
+                throw new RuntimeException("No hay datos en el documento.");
+            }
+        } catch (GeneralSecurityException | IOException e) {
+            throw new RuntimeException("No se leyo el documento, error: "+ e.getMessage());
+        }
+        try {
+            //valueToSearch = String.valueOf((values).get(rowNumber).get(0));
+            valueToSearch = String.valueOf((values).get(row).get(0));
+        }catch (Exception e){
+            throw new RuntimeException("registro(s) vacio(s), error: "+e.getMessage());
+        }
+
         Thread.sleep(500);
         String nombreDesplegado = this.driver.findElement(By.cssSelector("ul div button span")).getText();
-        validarNombre(nombreDesplegado, usuario);
+        validarNombre(nombreDesplegado, valueToSearch);
+//        this.driver.findElement(By.cssSelector("#login input")).sendKeys(valueToSearch);
     }
 
     private void validarNombre(String nombreDesplegado, String usuario) {
@@ -208,15 +258,27 @@ public class StepDefinitions {
 
 
         String valueToSearch;
-        String valueToSearch2;
+        String valueToSearch_email;
+        String valueToSearch_securyNumber;
+        String valueToSearch_phone;
+
         String range = UtilConstants.NAME_HOJA + "!" + UtilConstants.RANGE;
-        String range2 = UtilConstants.NAME_HOJA + "!" + UtilConstants.RANGE2;
+        String range_email = UtilConstants.NAME_HOJA + "!" + UtilConstants.RANGE_EMAIL;
+        String range_securyNumber = UtilConstants.NAME_HOJA + "!" + UtilConstants.RANGE_SECURYNUMBER;
+        String range_phone = UtilConstants.NAME_HOJA + "!" + UtilConstants.RANGE_PHONE;
 
         List<List<Object>> values = null;
-        List<List<Object>> values2 = null;
+        List<List<Object>> values_email = null;
+        List<List<Object>> values_securyNumber = null;
+        List<List<Object>> values_phone = null;
+
         try {
+
             values = GoogleSheetsReader.read(UtilConstants.SPREADSHEET_IDS,range);
-            values2 = GoogleSheetsReader.read(UtilConstants.SPREADSHEET_IDS, range2);
+            values_email = GoogleSheetsReader.read(UtilConstants.SPREADSHEET_IDS, range_email);
+            values_securyNumber = GoogleSheetsReader.read(UtilConstants.SPREADSHEET_IDS, range_securyNumber);
+            values_phone = GoogleSheetsReader.read(UtilConstants.SPREADSHEET_IDS, range_phone);
+
             if (values == null || values.isEmpty()) {
                 throw new RuntimeException("No hay datos en el documento.");
             }
@@ -228,15 +290,14 @@ public class StepDefinitions {
         try {
             // esto es para que lea las filas que se le mandan en el feature
             valueToSearch = String.valueOf((values).get(row).get(0));
-            valueToSearch2 = String.valueOf((values2).get(row).get(0));
+            valueToSearch_email = String.valueOf((values_email).get(row).get(0));
+            valueToSearch_securyNumber = String.valueOf((values_securyNumber).get(row).get(0));
+            valueToSearch_phone = String.valueOf((values_phone).get(row).get(0));
 
 
         }catch (Exception e){
             throw new RuntimeException("registro(s) vacio(s), error: "+e.getMessage());
         }
-
-
-
 
 
         //se escribe el nombre
@@ -246,15 +307,15 @@ public class StepDefinitions {
 
         //se escribe el email
         WebElement email = driver.findElement(By.xpath("(//input)[10]"));
-        email.sendKeys(valueToSearch2);
+        email.sendKeys(valueToSearch_email);
 
         //se escribe el securityNumber
         WebElement securityNumber = driver.findElement(By.xpath("(//input)[11]"));
-        securityNumber.sendKeys(valueToSearch);
+        securityNumber.sendKeys(valueToSearch_securyNumber);
 
         //se escribe el phone
         WebElement phone = driver.findElement(By.xpath("(//input)[12]"));
-        phone.sendKeys(valueToSearch);
+        phone.sendKeys(valueToSearch_phone);
 
         //se seleciona el archivo
         WebElement image = driver.findElement(By.cssSelector("input[type='file']"));
