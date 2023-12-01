@@ -19,9 +19,6 @@ public class LoginPage extends BasePage {
     @FindBy(css = "button[form='login']")
     WebElement loginButton;
 
-    @FindBy(css = "ul div button span")
-    WebElement displayedName;
-
     public LoginPage(WebDriver driver) {
         super(driver);
     }
@@ -36,14 +33,10 @@ public class LoginPage extends BasePage {
         passwordField.sendKeys(charSequences);
     }
 
-    public void clickLoginButton() {
+    public FiltroPrecioPage clickLoginButton() {
         wait.until(ExpectedConditions.visibilityOf(loginButton));
         loginButton.click();
+        return new FiltroPrecioPage(driver);
     }
 
-    public boolean validateDisplayedName(String expectedName) {
-        loginActions = new LoginActions();
-        wait.until(ExpectedConditions.visibilityOf(displayedName));
-        return loginActions.validarNombre(displayedName.getText(), expectedName);
-    }
 }

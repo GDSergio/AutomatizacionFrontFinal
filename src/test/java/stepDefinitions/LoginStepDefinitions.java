@@ -4,6 +4,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
+import pages.FiltroPrecioPage;
 import pages.LoginPage;
 import utils.UtilConstants;
 
@@ -30,11 +31,11 @@ public class LoginStepDefinitions {
 
     @When("Dar Clic en el botón LOGIN")
     public void dar_clic_en_el_boton_login() {
-        loginPage.clickLoginButton();
+        filtroPrecioPage = loginPage.clickLoginButton();
     }
 
     @Then("Validar que el {int} aparezca en la parte superior derecha")
     public void validarQueElAparezcaEnLaParteSuperiorDerecha(int row) {
-        Assert.assertTrue(loginPage.validateDisplayedName(readExcel(UtilConstants.NAME_HOJA_LOGIN, UtilConstants.RANGE_USUARIO, row)));
+        Assert.assertTrue(filtroPrecioPage.validateDisplayedName(readExcel(UtilConstants.NAME_HOJA_LOGIN, UtilConstants.RANGE_USUARIO, row)));
     }
 }

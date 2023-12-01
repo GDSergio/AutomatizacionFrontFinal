@@ -11,7 +11,7 @@ import java.time.Duration;
 
 public class BasePage {
 
-    private final WebDriver driver;
+    protected final WebDriver driver;
     protected WebDriverWait wait;
 
     @FindBy(xpath = "//button[contains(text(), 'Log in')]")
