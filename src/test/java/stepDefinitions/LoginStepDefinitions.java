@@ -4,7 +4,6 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
-import pages.FiltroPrecioPage;
 import pages.LoginPage;
 import utils.UtilConstants;
 

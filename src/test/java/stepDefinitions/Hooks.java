@@ -7,8 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import pages.BasePage;
+import pages.CarritoPage;
 import pages.FiltroPrecioPage;
-import pages.LoginPage;
 import utils.GoogleSheetsReader;
 import utils.UtilConstants;
 
@@ -21,6 +21,7 @@ public class Hooks {
     private static WebDriver driver;
     protected static BasePage basePage;
     protected static FiltroPrecioPage filtroPrecioPage;
+    protected static CarritoPage carritoPage;
 
     public static WebDriver getDriver() {
         return driver;
@@ -36,8 +37,10 @@ public class Hooks {
         driver = new EdgeDriver(options);
         driver.manage().window().maximize();
         driver.get("https://demo.testim.io");
+
         basePage = new BasePage(driver);
         filtroPrecioPage = new FiltroPrecioPage(driver);
+        carritoPage = new CarritoPage(driver);
     }
 
     @After
