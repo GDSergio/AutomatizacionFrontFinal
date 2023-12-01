@@ -49,5 +49,3 @@ Feature: feature to test google search functionality
     |id|
     |1 |
     |2 |
-
-

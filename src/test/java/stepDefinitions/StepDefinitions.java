@@ -4,18 +4,14 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import utils.GoogleSheetsReader;
 import utils.UtilConstants;
-
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
@@ -24,145 +20,13 @@ public class StepDefinitions {
 
     private WebDriver driver;
 
-    @Given("Se navega hacia {string}")
-    public void seNavegaHacia(String url) {
-        //initilizeWait();
-        System.setProperty("webdriver.http.factory", "jdk-http-client"); // Due to 403 forbidden msgs besides to another maven dependency
-
-        //WebDriverManager.chromedriver().setup();
-        WebDriverManager.edgedriver().setup();
-        //driver = new ChromeDriver();
-        driver = new EdgeDriver();
-        driver.manage().window().maximize();
-        driver.get(url);
-    }
-
     @When("La página ha cargado completamente")
     public void la_página_ha_cargado_completamente() {
-
-    }
-
-    @When("Dar Clic en el enlace del LOGIN")
-    public void dar_clic_en_el_enlace_del_login() {
-        this.driver.findElement(By.xpath("//button[contains(text(), 'Log in')]")).click();
-
-    }
-
-    @And("Llenar el campo de usuario como {int}")
-    public void llenarElCampoDeUsuarioComo(int row) {
-//        this.driver.findElement(By.cssSelector("#login input")).sendKeys(usuario);
-
-        // TEST DE LECTURA EXCEL
-        String valueToSearch;
-        String range = UtilConstants.NAME_HOJA_LOGIN + "!" + UtilConstants.RANGE_USUARIO;
-        List<List<Object>> values = null;
-
-        try {
-
-            values = GoogleSheetsReader.read(UtilConstants.SPREADSHEET_IDS,range);
-
-            if (values == null || values.isEmpty()) {
-                throw new RuntimeException("No hay datos en el documento.");
-            }
-        } catch (GeneralSecurityException | IOException e) {
-            throw new RuntimeException("No se leyo el documento, error: "+ e.getMessage());
-        }
-        try {
-            //valueToSearch = String.valueOf((values).get(rowNumber).get(0));
-            valueToSearch = String.valueOf((values).get(row).get(0));
-        }catch (Exception e){
-            throw new RuntimeException("registro(s) vacio(s), error: "+e.getMessage());
-        }
-
-        this.driver.findElement(By.cssSelector("#login input")).sendKeys(valueToSearch);
-
-    }
-
-    @And("Llenar el campo contraseña como {int}")
-    public void llenarElCampoContraseñaComo(int row) {
-
-
-        // TEST DE LECTURA EXCEL
-        String valueToSearch;
-        String range = UtilConstants.NAME_HOJA_LOGIN + "!" + UtilConstants.RANGE_PASSWORD;
-        List<List<Object>> values = null;
-
-        try {
-
-            values = GoogleSheetsReader.read(UtilConstants.SPREADSHEET_IDS,range);
-
-            if (values == null || values.isEmpty()) {
-                throw new RuntimeException("No hay datos en el documento.");
-            }
-        } catch (GeneralSecurityException | IOException e) {
-            throw new RuntimeException("No se leyo el documento, error: "+ e.getMessage());
-        }
-        try {
-            //valueToSearch = String.valueOf((values).get(rowNumber).get(0));
-            valueToSearch = String.valueOf((values).get(row).get(0));
-        }catch (Exception e){
-            throw new RuntimeException("registro(s) vacio(s), error: "+e.getMessage());
-        }
-        this.driver.findElement(By.cssSelector("input[type=\"password\"]")).sendKeys(valueToSearch);
-    }
-
-    @When("Dar Clic en el botón LOGIN")
-    public void dar_clic_en_el_botón_login() throws InterruptedException {
-        Thread.sleep(500);
-        this.driver.findElement(By.cssSelector("button[form='login']")).click();
-    }
-
-    @Then("Validar que el {int} aparezca en la parte superior derecha")
-    public void validarQueElAparezcaEnLaParteSuperiorDerecha(int row) throws InterruptedException {
-
-        // TEST DE LECTURA EXCEL
-        String valueToSearch;
-        String range = UtilConstants.NAME_HOJA_LOGIN + "!" + UtilConstants.RANGE_USUARIO;
-        List<List<Object>> values = null;
-
-        try {
-
-            values = GoogleSheetsReader.read(UtilConstants.SPREADSHEET_IDS,range);
-
-            if (values == null || values.isEmpty()) {
-                throw new RuntimeException("No hay datos en el documento.");
-            }
-        } catch (GeneralSecurityException | IOException e) {
-            throw new RuntimeException("No se leyo el documento, error: "+ e.getMessage());
-        }
-        try {
-            //valueToSearch = String.valueOf((values).get(rowNumber).get(0));
-            valueToSearch = String.valueOf((values).get(row).get(0));
-        }catch (Exception e){
-            throw new RuntimeException("registro(s) vacio(s), error: "+e.getMessage());
-        }
-
-        Thread.sleep(500);
-        String nombreDesplegado = this.driver.findElement(By.cssSelector("ul div button span")).getText();
-        validarNombre(nombreDesplegado, valueToSearch);
-//        this.driver.findElement(By.cssSelector("#login input")).sendKeys(valueToSearch);
-    }
-
-    private void validarNombre(String nombreDesplegado, String usuario) {
-        for (int i = 0; i < 10; i++) {
-            if (nombreDesplegado.charAt(i) == ',') {
-                String nombreEnPantalla = nombreDesplegado.substring(i + 2, nombreDesplegado.length());
-                try {
-                    Assert.assertEquals(nombreEnPantalla, usuario.toUpperCase());
-                } catch (AssertionError ex) {
-                    ex.printStackTrace();
-                    this.driver.quit();
-                    Assert.fail();
-                }
-                break;
-            }
-        }
     }
 
     @Given("Se navega hacia “https:\\/\\/demo.testim.io\\/destinations”")
     public void seNavegaHaciaHttpsDemoTestimIoDestinations() {
     }
-
 
     @And("Dar Clic en el enlace del book")
     public void darClicEnElEnlaceDelBook() throws InterruptedException {
@@ -186,7 +50,6 @@ public class StepDefinitions {
         // se pone check div[Class*='theme__check___2B20W ']
         WebElement check = driver.findElement(By.cssSelector("div[Class*='theme__check___2B20W']"));
         check.click();
-
     }
 
     @Then("El carrito aparecerá con tu compra")
@@ -299,13 +162,6 @@ public class StepDefinitions {
         }
     }
 
-    @AfterTest
-    @Then("Cerrar navegador")
-    public void cerrarNavegador() throws InterruptedException {
-        Thread.sleep(1000);
-        this.driver.quit();
-    }
-
     @And("Leer desde el Excel {int}")
 //    son los parametros que recibe desde el feature
     public void completarConElNombreConElCorreoConElSecurynumberConElTelefono(int row) throws InterruptedException {
@@ -375,6 +231,7 @@ public class StepDefinitions {
         //se seleciona el archivo
         WebElement image = driver.findElement(By.cssSelector("input[type='file']"));
 //        image.sendKeys("C://Users//Santi//Downloads//AutomatizacionDePruebas-master//AutomatizacionDePruebas-master//src//test//resources//img//valorant.png");
-        image.sendKeys("C:\\Users\\guzma\\Documents\\automatizacion\\AutomatizacionDePruebas\\src\\test\\resources\\img\\valorant.png");
+//        image.sendKeys("C:\\Users\\guzma\\Documents\\automatizacion\\AutomatizacionDePruebas\\src\\test\\resources\\img\\valorant.png");
+        image.sendKeys("C:\\Users\\Alexis\\Documents\\especializacion\\AutomatizacionFrontFinal\\src\\test\\resources\\img\\valorant.png");
     }
 }
