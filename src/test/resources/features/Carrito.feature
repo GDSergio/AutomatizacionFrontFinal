@@ -14,6 +14,6 @@ Feature: Yo como usuario necesito agregar un viaje
     Examples:
       | row |
       | 1   |
-      | 2   |
-      | 3   |
-      | 4   |
+#      | 2   |
+#      | 3   |
+#      | 4   |

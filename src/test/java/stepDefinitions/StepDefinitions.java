@@ -180,7 +180,7 @@ public class StepDefinitions {
         code.sendKeys("12345");
 
         //se da click en el botton apply
-        WebElement applyButton = driver.findElement(By.xpath("(//button)[10]"));
+        WebElement applyButton = driver.findElement(By.xpath("//*[@id=\"app\"]/div/div[2]/section[1]/div[3]/div[2]/div[4]/div[2]/button"));
         applyButton.click();
 
         // se pone check div[Class*='theme__check___2B20W ']
