@@ -11,3 +11,4 @@ Feature: Yo como usuario necesito filtrar por precio los vuelos
       | 1   |
       | 2   |
       | 3   |
+      | 4   |

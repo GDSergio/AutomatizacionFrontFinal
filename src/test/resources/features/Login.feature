@@ -13,3 +13,4 @@ Feature: Yo como usuario necesito iniciar sesión con usuario y contraseña vál
       | 1   |
       | 2   |
       | 3   |
+      | 4   |
