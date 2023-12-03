@@ -22,8 +22,8 @@ public class CarritoStepDefinitions {
         carritoPage.sendKeysPhoneField(readExcel(UtilConstants.NAME_HOJA, UtilConstants.RANGE_PHONE, row));
 //        carritoPage.sendKeysImgField("C:\\Users\\Alexis\\Documents\\especializacion\\AutomatizacionFrontFinal\\src\\test\\resources\\img\\valorant.png");
 //        image.sendKeys("C://Users//Santi//Downloads//AutomatizacionDePruebas-master//AutomatizacionDePruebas-master//src//test//resources//img//valorant.png");
-//        image.sendKeys("C:\\Users\\guzma\\Documents\\automatizacion\\AutomatizacionDePruebas\\src\\test\\resources\\img\\valorant.png");
-        carritoPage.sendKeysImgField("C:\\Users\\junio\\OneDrive\\Documentos\\especializacion\\AutomatizacionFrontFinal\\src\\test\\resources\\img\\valorant.png");
+        carritoPage.sendKeysImgField("C:\\Users\\guzma\\Documents\\automatizacion\\AutomatizacionDePruebas\\src\\test\\resources\\img\\valorant.png");
+//        carritoPage.sendKeysImgField("C:\\Users\\junio\\OneDrive\\Documentos\\especializacion\\AutomatizacionFrontFinal\\src\\test\\resources\\img\\valorant.png");
     }
 
     @And("pongo un codigo de descuento")

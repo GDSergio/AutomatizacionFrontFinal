@@ -1,14 +1,11 @@
 package pages;
 
-import actions.LoginActions;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class LoginPage extends BasePage {
-
-    private LoginActions loginActions;
 
     @FindBy(css = "#login input")
     WebElement userField;
@@ -17,7 +14,7 @@ public class LoginPage extends BasePage {
     WebElement passwordField;
 
     @FindBy(css = "button[form='login']")
-    WebElement loginButton;
+    WebElement loginButtonOnLoginPage;
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -34,8 +31,8 @@ public class LoginPage extends BasePage {
     }
 
     public FiltroPrecioPage clickLoginButton() {
-        wait.until(ExpectedConditions.visibilityOf(loginButton));
-        loginButton.click();
+        wait.until(ExpectedConditions.visibilityOf(loginButtonOnLoginPage));
+        loginButtonOnLoginPage.click();
         return new FiltroPrecioPage(driver);
     }
 

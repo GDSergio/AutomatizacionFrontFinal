@@ -23,6 +23,11 @@ import java.util.List;
 public class GoogleSheetsReader {
     private static final String APPLICATION_NAME = "Google Sheets";
 
+    private GoogleSheetsReader() {
+
+    }
+
+
     public static List<List<Object>> read(String spreadSheetId, String range) throws GeneralSecurityException, IOException {
         Sheets sheetsService;
         sheetsService = getSheetsService();

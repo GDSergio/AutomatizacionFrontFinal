@@ -2,6 +2,10 @@ package utils;
 
 public class UtilConstants {
 
+    private UtilConstants(){
+        
+    }
+
 //    Archivo credenciales mision match
     public static final String SPREADSHEET_IDS = AppProperties.getSpreadSheetId();
 

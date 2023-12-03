@@ -30,7 +30,8 @@ public class ConnectionManagerDB {
             logger.log(Level.FINE, "Connection successful");
             return connection;
         } catch (ClassNotFoundException | SQLException ex) {
-            throw new RuntimeException("Falló la creación de la conexión con la BD de MySQL, error: "+ ex.getMessage());
+            throw new ConnectionCreationException("Falló la creación de la conexión con la BD de MySQL", ex);
+
         }
     }
 
@@ -43,4 +44,11 @@ public class ConnectionManagerDB {
             logger.log(Level.SEVERE,() ->"CONNECTION_NOT_CLOSED " + e.getMessage());
         }
     }
+
+    class ConnectionCreationException extends RuntimeException {
+        public ConnectionCreationException(String message, Throwable cause) {
+            super(message, cause);
+        }
+    }
+
 }
